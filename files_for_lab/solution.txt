@@ -1,0 +1,47 @@
+Lab | Getting started with Tableau
+
+Instructions
+1-Load the dataset into a notebook.
+import pandas as pd
+import numpy as np
+-----
+data = pd.read_csv('we_fn_use_c_marketing_customer_value_analysis.csv')
+
+2-Create a barplot of the number of customers per Gender.
+
+import matplotlib.pyplot as plt
+
+customer_counts = data['Gender'].value_counts()
+
+# Create a bar plot
+plt.bar(customer_counts.index, customer_counts.values)
+
+# Add labels and title
+plt.xlabel('Gender')
+plt.ylabel('Number of Customers')
+plt.title('Number of Customers per Gender')
+
+# Display the plot
+plt.show()
+
+3-Create a barplot of the number of customers per EmploymentStatus and Gender.
+
+# Group the data by EmploymentStatus and Gender, and count the number of customers in each group
+grouped_data = data.groupby(['EmploymentStatus', 'Gender']).size().reset_index(name='Count')
+
+# Pivot the data to have EmploymentStatus as the x-axis and Gender as different bars within each group
+pivot_data = grouped_data.pivot(index='EmploymentStatus', columns='Gender', values='Count')
+
+# Create the bar plot
+ax = pivot_data.plot(kind='bar', stacked=True)
+
+# Set the plot title and labels
+ax.set_title('Number of Customers by Employment Status and Gender')
+ax.set_xlabel('Employment Status')
+ax.set_ylabel('Number of Customers')
+
+# Show the legend
+ax.legend(title='Gender')
+
+# Show the plot
+plt.show()
